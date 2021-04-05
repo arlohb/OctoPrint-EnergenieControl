@@ -161,7 +161,7 @@ class EnergeniecontrolPlugin(octoprint.plugin.EventHandlerPlugin):
 
     def get_update_information(self):
         return dict(
-            energeniecontrolplugin=dict(
+            energeniecontrol=dict(
                 diplayName=self._plugin_name,
                 displayVersion=self._plugin_version,
 
