@@ -1,17 +1,4 @@
 # OctoPrint-Energeniecontrol
 
-**TODO:** Describe what your plugin does.
-
-## Setup
-
-Install via the bundled [Plugin Manager](https://docs.octoprint.org/en/master/bundledplugins/pluginmanager.html)
-or manually using this URL:
-
-    https://github.com/arlohb/OctoPrint-Energeniecontrol/archive/master.zip
-
-**TODO:** Describe how to install your plugin, if more needs to be done than just installing it via pip or through
-the plugin manager.
-
-## Configuration
-
-**TODO:** Describe your plugin's configuration options (if any).
+Uses the energenie plugs to turn the 3d printer on when octoprint connects, and turn it off when it disconnects.
+The control board and two plugs can be found here: https://energenie4u.co.uk/catalogue/product/ENER002-2PI
