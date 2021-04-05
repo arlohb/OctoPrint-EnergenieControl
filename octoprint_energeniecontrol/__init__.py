@@ -171,7 +171,7 @@ class EnergeniecontrolPlugin(octoprint.plugin.EventHandlerPlugin):
                 user="arlohb",
                 repo="OctoPrint-EnergenieControl",
 
-                pip="https://github.com/arlohb/OctoPrint-EnergenieControl/archive/refs/heads/main.zip"
+                pip="https://github.com/arlohb/OctoPrint-EnergenieControl/archive/main.zip"
             )
         )
 
