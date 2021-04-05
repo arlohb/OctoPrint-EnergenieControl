@@ -1,0 +1,4 @@
+include README.md
+recursive-include octoprint_energeniecontrol/templates *
+recursive-include octoprint_energeniecontrol/translations *
+recursive-include octoprint_energeniecontrol/static *
