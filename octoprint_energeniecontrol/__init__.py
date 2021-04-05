@@ -78,7 +78,7 @@ class EnergeniecontrolPlugin(octoprint.plugin.EventHandlerPlugin):
                     commitish=["main"],
                 ),
 
-                pip="https://github.com/arlohb/OctoPrint-EnergenieControl/archive/{target}.zip"
+                pip="https://github.com/arlohb/OctoPrint-EnergenieControl/archive/{target_version}.zip"
             )
         )
 
