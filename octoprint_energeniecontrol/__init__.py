@@ -91,76 +91,75 @@ class GPIO:
         cls.exported_channels=[]
 
 
-# The GPIO pins for the Energenie module
-BIT1 = 17
-BIT2 = 22
-BIT3 = 23
-BIT4 = 27
-
-ON_OFF_KEY = 24
-ENABLE = 25
-
-def init():
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setwarnings(False)
-
-    GPIO.setup(BIT1, GPIO.OUT)
-    GPIO.setup(BIT2, GPIO.OUT)
-    GPIO.setup(BIT3, GPIO.OUT)
-    GPIO.setup(BIT4, GPIO.OUT)
-
-    GPIO.setup(ON_OFF_KEY, GPIO.OUT)
-    GPIO.setup(ENABLE, GPIO.OUT)
-
-    GPIO.output(ON_OFF_KEY, False)
-    GPIO.output(ENABLE, False)
-
-    GPIO.output(BIT1, False)
-    GPIO.output(BIT2, False)
-    GPIO.output(BIT3, False)
-    GPIO.output(BIT4, False)
-
-# Codes for switching on and off the sockets
-#       all     1       2       3       4
-ON = ['1011', '1111', '1110', '1101', '1100']
-OFF = ['0011', '0111', '0110', '0101', '0100']
-
-
-def change_plug_state(socket, on_or_off):
-    state = on_or_off[socket][3] == '1'
-    GPIO.output(BIT1, state)
-    state = on_or_off[socket][2] == '1'
-    GPIO.output(BIT2, state)
-    state = on_or_off[socket][1] == '1'
-    GPIO.output(BIT3, state)
-    state = on_or_off[socket][0] == '1'
-    GPIO.output(BIT4, state)
-    time.sleep(0.1)
-    GPIO.output(ENABLE, True)
-    time.sleep(0.25)
-    GPIO.output(ENABLE, False)
-
-
-def on(socket=0):
-    change_plug_state(socket, ON)
-
-
-def off(socket=0):
-    change_plug_state(socket, OFF)
-
-
-
 class EnergeniecontrolPlugin(octoprint.plugin.EventHandlerPlugin):
+    # The GPIO pins for the Energenie module
+    BIT1 = 17
+    BIT2 = 22
+    BIT3 = 23
+    BIT4 = 27
+
+    ON_OFF_KEY = 24
+    ENABLE = 25
+
+    def init(self):
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+
+        GPIO.setup(self.BIT1, GPIO.OUT)
+        GPIO.setup(self.BIT2, GPIO.OUT)
+        GPIO.setup(self.BIT3, GPIO.OUT)
+        GPIO.setup(self.BIT4, GPIO.OUT)
+
+        GPIO.setup(self.ON_OFF_KEY, GPIO.OUT)
+        GPIO.setup(self.ENABLE, GPIO.OUT)
+
+        GPIO.output(self.ON_OFF_KEY, False)
+        GPIO.output(self.ENABLE, False)
+
+        GPIO.output(self.BIT1, False)
+        GPIO.output(self.BIT2, False)
+        GPIO.output(self.BIT3, False)
+        GPIO.output(self.BIT4, False)
+
+    # Codes for switching on and off the sockets
+    #       all     1       2       3       4
+    ON = ['1011', '1111', '1110', '1101', '1100']
+    OFF = ['0011', '0111', '0110', '0101', '0100']
+
+
+    def change_plug_state(self, socket, on_or_off):
+        state = on_or_off[socket][3] == '1'
+        GPIO.output(self.BIT1, state)
+        state = on_or_off[socket][2] == '1'
+        GPIO.output(self.BIT2, state)
+        state = on_or_off[socket][1] == '1'
+        GPIO.output(self.BIT3, state)
+        state = on_or_off[socket][0] == '1'
+        GPIO.output(self.BIT4, state)
+        time.sleep(0.1)
+        GPIO.output(self.ENABLE, True)
+        time.sleep(0.25)
+        GPIO.output(self.ENABLE, False)
+
+
+    def on(self, socket=0):
+        self.change_plug_state(socket, self.ON)
+
+
+    def off(self, socket=0):
+        self.change_plug_state(socket, self.OFF)
+        
     def on_event(self, event, payload):
         if event == octoprint.events.Events.CONNECTED:
-            init()
-            on()
+            self.init()
+            self.on()
             GPIO.cleanup()
         elif event == octoprint.events.Events.DISCONNECTED:
-            init()
-            off()
+            self.init()
+            self.off()
             GPIO.cleanup()
-    def get_update_information(*args, **kwargs):
+
+    def get_update_information(self):
         return dict(
             energeniecontrolplugin=dict(
                 diplayName=self._plugin_name,
@@ -171,7 +170,13 @@ class EnergeniecontrolPlugin(octoprint.plugin.EventHandlerPlugin):
                 user="arlohb",
                 repo="OctoPrint-EnergenieControl",
 
-                pip="https://github.com/arlohb/OctoPrint-EnergenieControl/archive/main.zip"
+                stable_branch=dict(
+                    name="Stable",
+                    branch="main",
+                    commitish=["main"],
+                ),
+
+                pip="https://github.com/arlohb/OctoPrint-EnergenieControl/archive/{target}.zip"
             )
         )
 
