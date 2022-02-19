@@ -56,7 +56,7 @@ class EnergeniecontrolPlugin(octoprint.plugin.EventHandlerPlugin):
         self.cleanup()
 
     def on_event(self, event, payload):
-        if event == octoprint.events.Events.CONNECTED:
+        if event == octoprint.events.Events.CONNECTING:
             self.write([1,1,0,1])
         elif event == octoprint.events.Events.DISCONNECTED:
             self.write([1,1,0,0])
